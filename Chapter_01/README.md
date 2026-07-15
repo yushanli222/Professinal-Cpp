@@ -7,11 +7,9 @@
 
 --设计代码demo.cpp使用#ifdef[id]、#endif来验证  
 
->
 > #ifdef Myname
-> helloworld
 >
->
+> > hello world
 
 代码逻辑：如果宏A被定义，则str="A";如果没有被定义，则*str="B"*
 
