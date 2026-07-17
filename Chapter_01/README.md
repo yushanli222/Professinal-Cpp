@@ -1,33 +1,42 @@
  #  1.1预处理指令
 
-含义：***在代码运行之前先被编译器转换为计算机能识别的可执行文件***
+含义：编译器在正式运行源代码之前会优先处理*预处理指令*（包括宏替换，引入头文件等操作），经过预处理净化过后的代码才会最终编译器进行后续的操作，最终生成可执行文件。
 
 
 ## 实验验证
 
---设计代码使用#ifdef[id]、eles、#endif来验证预处理指令的作用
+使用#ifdef[id]、eles、#endif条件编译来验证预处理指令的作用
 
-（ifdef就是if defined的意思）
+参考可运行代码：
 
-    `` #ifdef "A"  
+    ``#includ <iosream>
+     #ifdef "A"  
      const char* str="A";
      else
      const char* str="B";
-     #endif``  
+     #endif
 
-代码逻辑：先编写了一个预处理指令#ifdef A,并定义了一个字符串A，一个字符串B；如果宏被定义，就运行const char* str="A"，如果没有则else,运行const char* str="B"
 
-则编译器运行#ifdef A,
+    int main()
+    {cout<<str<<endl;
+    return 0``  
 
-g++时对比验证：
+代码逻辑：预处理器在预处理阶段检测全局宏A:如果宏A被定义，就只保留const char* str="A"，删除#else分支的全部代码;如果没有宏A没有被定义，则只保留运行const char* str="B"，舍弃上方的全部代码。
 
-在g++编译时如果定义宏（-DA)则编译器先预处理#ifdef A，则输出A;反之若没有提前定义宏，则else输出B，如下：
+
+对比编译命令：
+
+用g++编译参数-D宏名：在预处理阶段定义全局宏，等价于在代码开头手动书写：#define A
+
+1.编译时定义宏A:
 
 >g++ demo.cpp -DA -o demo
 
 >./demo
 
 输出结果：A
+
+2.编译时不定义任何宏
 
 >g++ demo.cpp -o demo
 
